@@ -23,14 +23,12 @@ var WebpackDevServer = require('webpack-dev-server');
 var historyApiFallback = require('connect-history-api-fallback');
 var httpProxyMiddleware = require('http-proxy-middleware');
 var detect = require('detect-port');
-var clearConsole = require('react-dev-utils/clearConsole');
-var checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
-var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-var getProcessForPort = require('react-dev-utils/getProcessForPort');
-var openBrowser = require('react-dev-utils/openBrowser');
-var prompt = require('react-dev-utils/prompt');
+var clearConsole = require('react-webextension-dev-utils/clearConsole');
+var checkRequiredFiles = require('react-webextension-dev-utils/checkRequiredFiles');
+var formatWebpackMessages = require('react-webextension-dev-utils/formatWebpackMessages');
+var openBrowser = require('react-webextension-dev-utils/openBrowser');
+var prompt = require('react-webextension-dev-utils/prompt');
 var pathExists = require('path-exists');
-var config = require('../config/webpack.config.dev');
 var paths = require('../config/paths');
 
 var useYarn = pathExists.sync(paths.yarnLockFile);
@@ -307,20 +305,6 @@ detect(DEFAULT_PORT).then(port => {
     return;
   }
 
-  if (isInteractive) {
-    clearConsole();
-    var existingProcess = getProcessForPort(DEFAULT_PORT);
-    var question =
-      chalk.yellow('Something is already running on port ' + DEFAULT_PORT + '.' +
-        ((existingProcess) ? ' Probably:\n  ' + existingProcess : '')) +
-        '\n\nWould you like to run the app on another port instead?';
-
-    prompt(question, true).then(shouldChangePort => {
-      if (shouldChangePort) {
-        run(port);
-      }
-    });
-  } else {
-    console.log(chalk.red('Something is already running on port ' + DEFAULT_PORT + '.'));
-  }
+  clearConsole();
+  console.error(chalk.yellow('Something is already running on port ' + DEFAULT_PORT + '. Stopping...'));
 });
