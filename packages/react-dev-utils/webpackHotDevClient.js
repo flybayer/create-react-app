@@ -123,7 +123,7 @@ function showErrorOverlay(message) {
   });
 }
 
-function destroyErrorOverlay() {  
+function destroyErrorOverlay() {
   if (!overlayDiv) {
     // It is not there in the first place.
     return;
@@ -136,14 +136,28 @@ function destroyErrorOverlay() {
   lastOnOverlayDivReady = null;
 }
 
+var connectionUrl = '';
+if (window.location.protocol === 'chrome-extension:') {
+  let scripts = window.document.body.getElementsByTagName('script');
+
+  for (let i=0; i < scripts.length; i++) {
+    if (scripts[i].src.includes('bundle.js')) {
+      let urlObject = url.parse(scripts[i].src);
+      connectionUrl = `${urlObject.protocol}//${urlObject.host}/sockjs-node`;
+    }
+  }
+} else {
+  connectionUrl = url.format({
+    protocol: window.location.protocol,
+    hostname: window.location.hostname,
+    port: window.location.port,
+    // Hardcoded in WebpackDevServer
+    pathname: '/sockjs-node'
+  })
+}
+
 // Connect to WebpackDevServer via a socket.
-var connection = new SockJS(url.format({
-  protocol: window.location.protocol,
-  hostname: window.location.hostname,
-  port: window.location.port,
-  // Hardcoded in WebpackDevServer
-  pathname: '/sockjs-node'
-}));
+var connection = new SockJS(connectionUrl);
 
 // Unlike WebpackDevServer client, we won't try to reconnect
 // to avoid spamming the console. Disconnect usually happens
