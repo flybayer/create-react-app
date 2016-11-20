@@ -13,8 +13,9 @@ var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
-var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
+var InterpolateHtmlPlugin = require('react-webextension-dev-utils/InterpolateHtmlPlugin');
+var WatchMissingNodeModulesPlugin = require('react-webextension-dev-utils/WatchMissingNodeModulesPlugin');
+var WriteFileWebpackPlugin = require('write-file-webpack-plugin');
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
 
@@ -24,8 +25,11 @@ var path = require('path');
 // @remove-on-eject-end
 
 // Webpack uses `publicPath` to determine where the app is being served from.
-// In development, we always serve from the root. This makes config easier.
-var publicPath = '/';
+// In development, we include the entire path so all assets can be loaded
+// via localhost instead of from the browser extension package
+var DEFAULT_PORT = process.env.PORT || 3000;
+var devProtocol = process.env.HTTPS === 'true' ? 'https' : 'http';
+var publicPath = `${devProtocol}://localhost:${DEFAULT_PORT}/`;
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
@@ -54,7 +58,7 @@ module.exports = {
     // the line below with these two lines if you prefer the stock client:
     // require.resolve('webpack-dev-server/client') + '?/',
     // require.resolve('webpack/hot/dev-server'),
-    require.resolve('react-dev-utils/webpackHotDevClient'),
+    require.resolve('react-webextension-dev-utils/webpackHotDevClient'),
     // We ship a few polyfills by default:
     require.resolve('./polyfills'),
     // Finally, this is your app's code:
@@ -226,7 +230,8 @@ module.exports = {
     // to restart the development server for Webpack to discover it. This plugin
     // makes the discovery automatic so you don't have to restart.
     // See https://github.com/facebookincubator/create-react-app/issues/186
-    new WatchMissingNodeModulesPlugin(paths.appNodeModules)
+    new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+    new WriteFileWebpackPlugin({test: /\.html$/})
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
