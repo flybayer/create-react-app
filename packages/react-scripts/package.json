@@ -100,7 +100,6 @@
     "extract-text-webpack-plugin",
     "file-loader",
     "filesize",
-    "find-cache-dir",
     "fs-extra",
     "gzip-size",
     "html-webpack-plugin",
