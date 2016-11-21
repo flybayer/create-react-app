@@ -1,5 +1,6 @@
 node_modules/
 build
+dev-build
 .DS_Store
 *.tgz
 my-app*
