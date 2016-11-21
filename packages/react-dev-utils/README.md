@@ -1,18 +1,18 @@
 # react-dev-utils
 
-This package includes some utilities used by [Create React App](https://github.com/facebookincubator/create-react-app).  
+This package includes some utilities used by [Create React WebExtension](https://github.com/flybayer/create-react-webextension).
 Please refer to its documentation:
 
-* [Getting Started](https://github.com/facebookincubator/create-react-app/blob/master/README.md#getting-started) – How to create a new app.
-* [User Guide](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md) – How to develop apps bootstrapped with Create React App.
+* [Getting Started](https://github.com/flybayer/create-react-webextension/blob/webextension/README.md#getting-started) – How to create a new app.
+* [User Guide](https://github.com/flybayer/create-react-webextension/blob/webextension/packages/react-scripts/template/README.md) – How to develop apps bootstrapped with Create React App.
 
 ## Usage in Create React App Projects
 
-These utilities come by default with [Create React App](https://github.com/facebookincubator/create-react-app), which includes it by default. **You don’t need to install it separately in Create React App projects.**
+These utilities come by default with [Create React WebExtension](https://github.com/flybayer/create-react-webextension), which includes it by default. **You don’t need to install it separately in Create React App projects.**
 
 ## Usage Outside of Create React App
 
-If you don’t use Create React App, or if you [ejected](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-run-eject), you may keep using these utilities. Their development will be aligned with Create React App, so major versions of these utilities may come out relatively often. Feel free to fork or copy and paste them into your projects if you’d like to have more control over them, or feel free to use the old versions. Not all of them are React-specific, but we might make some of them more React-specific in the future.
+If you don’t use Create React App, or if you [ejected](https://github.com/flybayer/create-react-webextension/blob/webextension/packages/react-scripts/template/README.md#npm-run-eject), you may keep using these utilities. Their development will be aligned with Create React App, so major versions of these utilities may come out relatively often. Feel free to fork or copy and paste them into your projects if you’d like to have more control over them, or feel free to use the old versions. Not all of them are React-specific, but we might make some of them more React-specific in the future.
 
 ### Entry Points
 
@@ -20,7 +20,7 @@ There is no single entry point. You can only import individual top-level modules
 
 #### `new InterpolateHtmlPlugin(replacements: {[key:string]: string})`
 
-This Webpack plugin lets us interpolate custom variables into `index.html`.  
+This Webpack plugin lets us interpolate custom variables into `index.html`.
 It works in tandem with [HtmlWebpackPlugin](https://github.com/ampedandwired/html-dev-plugin) 2.x via its [events](https://github.com/ampedandwired/html-dev-plugin#events).
 
 ```js
@@ -34,7 +34,7 @@ var publicUrl = '/my-custom-url';
 module.exports = {
   output: {
     // ...
-    publicPath: publicUrl + '/' 
+    publicPath: publicUrl + '/'
   },
   // ...
   plugins: [
@@ -58,8 +58,8 @@ module.exports = {
 
 #### `new WatchMissingNodeModulesPlugin(nodeModulesPath: string)`
 
-This Webpack plugin ensures `npm install <library>` forces a project rebuild.  
-We’re not sure why this isn't Webpack's default behavior.  
+This Webpack plugin ensures `npm install <library>` forces a project rebuild.
+We’re not sure why this isn't Webpack's default behavior.
 See [#186](https://github.com/facebookincubator/create-react-app/issues/186) for details.
 
 ```js
@@ -83,8 +83,8 @@ module.exports = {
 
 #### `checkRequiredFiles(files: Array<string>): boolean`
 
-Makes sure that all passed files exist.  
-Filenames are expected to be absolute.  
+Makes sure that all passed files exist.
+Filenames are expected to be absolute.
 If a file is not found, prints a warning message and returns `false`.
 
 ```js
@@ -160,8 +160,8 @@ getProcessForPort(3000);
 
 #### `openBrowser(url: string): boolean`
 
-Attempts to open the browser with a given URL.  
-On Mac OS X, attempts to reuse an existing Chrome tab via AppleScript.  
+Attempts to open the browser with a given URL.
+On Mac OS X, attempts to reuse an existing Chrome tab via AppleScript.
 Otherwise, falls back to [opn](https://github.com/sindresorhus/opn) behavior.
 
 
@@ -178,8 +178,8 @@ if (openBrowser('http://localhost:3000')) {
 
 This function displays a console prompt to the user.
 
-By convention, "no" should be the conservative choice.  
-If you mistype the answer, we'll always take it as a "no".  
+By convention, "no" should be the conservative choice.
+If you mistype the answer, we'll always take it as a "no".
 You can control the behavior on `<Enter>` with `isYesDefault`.
 
 ```js
