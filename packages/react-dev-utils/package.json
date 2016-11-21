@@ -1,6 +1,6 @@
 {
   "name": "react-webextension-dev-utils",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Webpack utilities used by Create React WebExtension",
   "keywords": [
     "chrome",
