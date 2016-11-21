@@ -23,11 +23,11 @@ var WebpackDevServer = require('webpack-dev-server');
 var historyApiFallback = require('connect-history-api-fallback');
 var httpProxyMiddleware = require('http-proxy-middleware');
 var detect = require('detect-port');
-var clearConsole = require('react-browser-extension-dev-utils/clearConsole');
-var checkRequiredFiles = require('react-browser-extension-dev-utils/checkRequiredFiles');
-var formatWebpackMessages = require('react-browser-extension-dev-utils/formatWebpackMessages');
-var openBrowser = require('react-browser-extension-dev-utils/openBrowser');
-var prompt = require('react-browser-extension-dev-utils/prompt');
+var clearConsole = require('react-webextension-dev-utils/clearConsole');
+var checkRequiredFiles = require('react-webextension-dev-utils/checkRequiredFiles');
+var formatWebpackMessages = require('react-webextension-dev-utils/formatWebpackMessages');
+var openBrowser = require('react-webextension-dev-utils/openBrowser');
+var prompt = require('react-webextension-dev-utils/prompt');
 var config = require('../config/webpack.config.dev');
 var paths = require('../config/paths');
 

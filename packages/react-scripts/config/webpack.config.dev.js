@@ -15,8 +15,8 @@ var webpack = require('webpack');
 var findCacheDir = require('find-cache-dir');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-var InterpolateHtmlPlugin = require('react-browser-extension-dev-utils/InterpolateHtmlPlugin');
-var WatchMissingNodeModulesPlugin = require('react-browser-extension-dev-utils/WatchMissingNodeModulesPlugin');
+var InterpolateHtmlPlugin = require('react-webextension-dev-utils/InterpolateHtmlPlugin');
+var WatchMissingNodeModulesPlugin = require('react-webextension-dev-utils/WatchMissingNodeModulesPlugin');
 var WriteFileWebpackPlugin = require('write-file-webpack-plugin');
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
@@ -57,7 +57,7 @@ module.exports = {
     // the line below with these two lines if you prefer the stock client:
     // require.resolve('webpack-dev-server/client') + '?/',
     // require.resolve('webpack/hot/dev-server'),
-    require.resolve('react-browser-extension-dev-utils/webpackHotDevClient'),
+    require.resolve('react-webextension-dev-utils/webpackHotDevClient'),
     // We ship a few polyfills by default:
     require.resolve('./polyfills'),
     // Finally, this is your app's code:
