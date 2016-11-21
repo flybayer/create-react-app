@@ -18,6 +18,7 @@ process.env.NODE_ENV = 'development';
 require('dotenv').config({silent: true});
 
 var chalk = require('chalk');
+var fs = require('fs-extra');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var historyApiFallback = require('connect-history-api-fallback');
@@ -240,6 +241,8 @@ function runDevServer(host, port, protocol) {
     // for some reason broken when imported through Webpack. If you just want to
     // use an image, put it in `src` and `import` it from JavaScript instead.
     contentBase: paths.appPublic,
+    // Needed for WriteFileWebpackPlugin
+    outputPath: paths.appBuild,
     // Enable hot reloading server. It will provide /sockjs-node/ endpoint
     // for the WebpackDevServer client so it can learn when the files were
     // updated. The WebpackDevServer client is included as an entry point
@@ -277,9 +280,19 @@ function runDevServer(host, port, protocol) {
     console.log(chalk.cyan('Starting the development server...'));
     console.log();
 
+    // Merge with the public folder
+    copyPublicFolder();
+
     if (isInteractive) {
       openBrowser(protocol + '://' + host + ':' + port + '/');
     }
+  });
+}
+
+function copyPublicFolder() {
+  fs.copySync(paths.appPublic, paths.appBuild, {
+    dereference: true,
+    filter: file => file !== paths.appHtml
   });
 }
 
@@ -301,3 +314,4 @@ detect(DEFAULT_PORT).then(port => {
   clearConsole();
   console.error(chalk.yellow('Something is already running on port ' + DEFAULT_PORT + '. Stopping...'));
 });
+

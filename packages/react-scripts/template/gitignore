@@ -6,6 +6,9 @@ node_modules
 # testing
 coverage
 
+# development
+dev-build
+
 # production
 build
 
