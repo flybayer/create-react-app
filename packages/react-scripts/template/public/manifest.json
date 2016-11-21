@@ -1,0 +1,13 @@
+{
+  "name": "my-app",
+  "version": "0.1",
+  "description": "Fun!",
+
+  "chrome_url_overrides": {
+  },
+  "permissions": [
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' http://localhost:3000; object-src 'self'",
+
+  "manifest_version": 2
+}

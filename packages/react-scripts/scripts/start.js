@@ -18,6 +18,7 @@ process.env.NODE_ENV = 'development';
 require('dotenv').config({silent: true});
 
 var chalk = require('chalk');
+var fs = require('fs-extra');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var historyApiFallback = require('connect-history-api-fallback');
@@ -26,7 +27,6 @@ var detect = require('detect-port');
 var clearConsole = require('react-webextension-dev-utils/clearConsole');
 var checkRequiredFiles = require('react-webextension-dev-utils/checkRequiredFiles');
 var formatWebpackMessages = require('react-webextension-dev-utils/formatWebpackMessages');
-var openBrowser = require('react-webextension-dev-utils/openBrowser');
 var prompt = require('react-webextension-dev-utils/prompt');
 var pathExists = require('path-exists');
 var paths = require('../config/paths');
@@ -96,9 +96,11 @@ function setupCompiler(host, port, protocol) {
 
     if (showInstructions) {
       console.log();
-      console.log('The app is running at:');
+      console.log('Load the extension in your browser from:');
       console.log();
-      console.log('  ' + chalk.cyan(protocol + '://' + host + ':' + port + '/'));
+      console.log('  ' + chalk.cyan(paths.appBuild));
+      console.log();
+      console.log('The JavaScript bundle is loaded from: ' + chalk.cyan(protocol + '://' + host + ':' + port + '/'));
       console.log();
       console.log('Note that the development build is not optimized.');
       console.log('To create a production build, use ' + chalk.cyan(cli + ' run build') + '.');
@@ -247,6 +249,8 @@ function runDevServer(host, port, protocol) {
     // for some reason broken when imported through Webpack. If you just want to
     // use an image, put it in `src` and `import` it from JavaScript instead.
     contentBase: paths.appPublic,
+    // Needed for WriteFileWebpackPlugin
+    outputPath: paths.appBuild,
     // Enable hot reloading server. It will provide /sockjs-node/ endpoint
     // for the WebpackDevServer client so it can learn when the files were
     // updated. The WebpackDevServer client is included as an entry point
@@ -284,9 +288,15 @@ function runDevServer(host, port, protocol) {
     console.log(chalk.cyan('Starting the development server...'));
     console.log();
 
-    if (isInteractive) {
-      openBrowser(protocol + '://' + host + ':' + port + '/');
-    }
+    // Merge with the public folder
+    copyPublicFolder();
+  });
+}
+
+function copyPublicFolder() {
+  fs.copySync(paths.appPublic, paths.appBuild, {
+    dereference: true,
+    filter: file => file !== paths.appHtml
   });
 }
 
@@ -308,3 +318,4 @@ detect(DEFAULT_PORT).then(port => {
   clearConsole();
   console.error(chalk.yellow('Something is already running on port ' + DEFAULT_PORT + '. Stopping...'));
 });
+
