@@ -27,7 +27,6 @@ var detect = require('detect-port');
 var clearConsole = require('react-webextension-dev-utils/clearConsole');
 var checkRequiredFiles = require('react-webextension-dev-utils/checkRequiredFiles');
 var formatWebpackMessages = require('react-webextension-dev-utils/formatWebpackMessages');
-var openBrowser = require('react-webextension-dev-utils/openBrowser');
 var prompt = require('react-webextension-dev-utils/prompt');
 var config = require('../config/webpack.config.dev');
 var paths = require('../config/paths');
@@ -81,9 +80,11 @@ function setupCompiler(host, port, protocol) {
     if (!messages.errors.length && !messages.warnings.length) {
       console.log(chalk.green('Compiled successfully!'));
       console.log();
-      console.log('The app is running at:');
+      console.log('Load the extension in your browser from:');
       console.log();
-      console.log('  ' + chalk.cyan(protocol + '://' + host + ':' + port + '/'));
+      console.log('  ' + chalk.cyan(paths.appBuild));
+      console.log();
+      console.log('The JavaScript bundle is loaded from: ' + chalk.cyan(protocol + '://' + host + ':' + port + '/'));
       console.log();
       console.log('Note that the development build is not optimized.');
       console.log('To create a production build, use ' + chalk.cyan('npm run build') + '.');
@@ -253,8 +254,6 @@ function runDevServer(host, port, protocol) {
 
     // Merge with the public folder
     copyPublicFolder();
-
-    openBrowser(protocol + '://' + host + ':' + port + '/');
   });
 }
 
