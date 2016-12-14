@@ -1,6 +1,6 @@
 {
   "name": "react-webextension-scripts",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "Configuration and scripts for Create React WebExtension.",
   "keywords": [
     "chrome",
