@@ -1,11 +1,8 @@
 {
-  "name": "react-dev-utils",
-  "version": "0.4.2",
-  "description": "Webpack utilities used by Create React App",
-  "repository": "facebookincubator/create-react-app",
   "name": "react-webextension-dev-utils",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Webpack utilities used by Create React WebExtension",
+  "repository": "flybayer/create-react-webextension",
   "keywords": [
     "chrome",
     "firefox",
@@ -16,7 +13,6 @@
     "react",
     "create-react-app"
   ],
-  "repository": "flybayer/create-react-webextension",
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/flybayer/create-react-webextension/issues"
