@@ -1,6 +1,6 @@
 {
   "name": "react-webextension-dev-utils",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Webpack utilities used by Create React WebExtension",
   "repository": "flybayer/create-react-webextension",
   "keywords": [
