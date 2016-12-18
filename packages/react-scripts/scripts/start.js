@@ -37,7 +37,7 @@ var cli = useYarn ? 'yarn' : 'npm';
 var isInteractive = process.stdout.isTTY;
 
 // Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
+if (!checkRequiredFiles([paths.appOverrideHtml, paths.appOverrideJs])) {
   process.exit(1);
 }
 
@@ -170,10 +170,10 @@ function addMiddleware(devServer) {
     // Paths with dots should still use the history fallback.
     // See https://github.com/facebookincubator/create-react-app/issues/387.
     disableDotRule: true,
-    // For single page apps, we generally want to fallback to /index.html.
+    // For single page apps, we generally want to fallback to /override.html.
     // However we also want to respect `proxy` for API calls.
     // So if `proxy` is specified, we need to decide which fallback to use.
-    // We use a heuristic: if request `accept`s text/html, we pick /index.html.
+    // We use a heuristic: if request `accept`s text/html, we pick /override.html.
     // Modern browsers include text/html into `accept` header when navigating.
     // However API calls like `fetch()` won’t generally accept text/html.
     // If this heuristic doesn’t work well for you, don’t use `proxy`.
@@ -191,11 +191,11 @@ function addMiddleware(devServer) {
 
     // Otherwise, if proxy is specified, we will let it handle any request.
     // There are a few exceptions which we won't send to the proxy:
-    // - /index.html (served as HTML5 history API fallback)
+    // - /override.html (served as HTML5 history API fallback)
     // - /*.hot-update.json (WebpackDevServer uses this too for hot reloading)
     // - /sockjs-node/* (WebpackDevServer uses this for hot reloading)
     // Tip: use https://jex.im/regulex/ to visualize the regex
-    var mayProxy = /^(?!\/(index\.html$|.*\.hot-update\.json$|sockjs-node\/)).*$/;
+    var mayProxy = /^(?!\/(override\.html$|.*\.hot-update\.json$|sockjs-node\/)).*$/;
 
     // Pass the scope regex both to Express and to the middleware for proxying
     // of both HTTP and WebSockets to work without false positives.
@@ -224,7 +224,7 @@ function addMiddleware(devServer) {
   }
 
   // Finally, by now we have certainly resolved the URL.
-  // It may be /index.html, so let the dev server try serving it again.
+  // It may be /override.html, so let the dev server try serving it again.
   devServer.use(devServer.middleware);
 }
 
@@ -242,7 +242,7 @@ function runDevServer(host, port, protocol) {
     // project directory is dangerous because we may expose sensitive files.
     // Instead, we establish a convention that only files in `public` directory
     // get served. Our build script will copy `public` into the `build` folder.
-    // In `index.html`, you can get URL of `public` folder with %PUBLIC_PATH%:
+    // In `override.html`, you can get URL of `public` folder with %PUBLIC_PATH%:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In JavaScript code, you can access it with `process.env.PUBLIC_URL`.
     // Note that we only recommend to use `public` folder as an escape hatch
@@ -274,7 +274,7 @@ function runDevServer(host, port, protocol) {
     host: host
   });
 
-  // Our custom middleware proxies requests to /index.html or a remote API.
+  // Our custom middleware proxies requests to /override.html or a remote API.
   addMiddleware(devServer);
 
   // Launch WebpackDevServer.
@@ -297,7 +297,7 @@ function runDevServer(host, port, protocol) {
 function copyPublicFolder() {
   fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
-    filter: file => file !== paths.appHtml
+    filter: file => file !== paths.appOverrideHtml
   });
 }
 

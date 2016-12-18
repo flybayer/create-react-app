@@ -4,7 +4,7 @@
   "description": "Fun!",
 
   "chrome_url_overrides": {
-    "newtab": "index.html"
+    "newtab": "override.html"
   },
   "background": {
     "scripts": ["static/js/background.bundle.js"],

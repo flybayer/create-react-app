@@ -44,8 +44,8 @@ var nodePaths = (process.env.NODE_PATH || '')
 module.exports = {
   appBuild: process.env.NODE_ENV === 'development' ? resolveApp('dev-build') : resolveApp('build'),
   appPublic: resolveApp('public'),
-  appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.js'),
+  appOverrideHtml: resolveApp('public/override.html'),
+  appOverrideJs: resolveApp('src/override.js'),
   appBackgroundJs: resolveApp('src/background.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
@@ -65,8 +65,8 @@ function resolveOwn(relativePath) {
 module.exports = {
   appBuild: process.env.NODE_ENV === 'development' ? resolveApp('dev-build') : resolveApp('build'),
   appPublic: resolveApp('public'),
-  appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.js'),
+  appOverrideHtml: resolveApp('public/override.html'),
+  appOverrideJs: resolveApp('src/override.js'),
   appBackgroundJs: resolveApp('src/background.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
@@ -83,8 +83,8 @@ if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) 
   module.exports = {
     appBuild: process.env.NODE_ENV === 'development' ? resolveOwn('../../../dev-build') : resolveOwn('../../../build'),
     appPublic: resolveOwn('../template/public'),
-    appHtml: resolveOwn('../template/public/index.html'),
-    appIndexJs: resolveOwn('../template/src/index.js'),
+    appOverrideHtml: resolveOwn('../template/public/override.html'),
+    appOverrideJs: resolveOwn('../template/src/override.js'),
     appBackgroundJs: resolveOwn('../template/src/background.js'),
     appPackageJson: resolveOwn('../package.json'),
     appSrc: resolveOwn('../template/src'),

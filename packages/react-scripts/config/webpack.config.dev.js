@@ -31,7 +31,7 @@ var DEFAULT_PORT = process.env.PORT || 3000;
 var devProtocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 var publicPath = `${devProtocol}://localhost:${DEFAULT_PORT}/`;
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
-// as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
+// as %PUBLIC_URL% in `override.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
 var publicUrl = '';
 // Get environment variables to inject into our app.
@@ -48,7 +48,7 @@ module.exports = {
   // This means they will be the "root" imports that are included in JS bundle.
   // The first two entry points enable "hot" CSS and auto-refreshes for JS.
   entry: {
-    index: [
+    override: [
       // Include an alternative client for WebpackDevServer. A client's job is to
       // connect to WebpackDevServer by a socket and get notified about changes.
       // When you save a file, the client will either apply hot updates (in case
@@ -63,7 +63,7 @@ module.exports = {
       // We ship a few polyfills by default:
       require.resolve('./polyfills'),
       // Finally, this is your app's code:
-      paths.appIndexJs
+      paths.appOverrideJs
       // We include the app code last so that if there is a runtime error during
       // initialization, it doesn't blow up the WebpackDevServer client, and
       // changing JS code would still trigger a refresh.
@@ -217,16 +217,17 @@ module.exports = {
     ];
   },
   plugins: [
-    // Makes the public URL available as %PUBLIC_URL% in index.html, e.g.:
+    // Makes the public URL available as %PUBLIC_URL% in override.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
     new InterpolateHtmlPlugin({
       PUBLIC_URL: publicUrl
     }),
-    // Generates an `index.html` file with the <script> injected.
+    // Generates an `override.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
-      template: paths.appHtml,
+      template: paths.appOverrideHtml,
+      filename: 'override.html',
     }),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
