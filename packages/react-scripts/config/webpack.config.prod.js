@@ -232,6 +232,7 @@ module.exports = {
       inject: true,
       template: paths.appOverrideHtml,
       filename: 'override.html',
+      excludeChunks: ['background'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,
