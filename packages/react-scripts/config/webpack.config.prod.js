@@ -73,6 +73,10 @@ module.exports = {
       require.resolve('./polyfills'),
       paths.appOverrideJs
     ],
+    popup: [
+      require.resolve('./polyfills'),
+      paths.appPopupJs
+    ],
     background: [
       require.resolve('./polyfills'),
       paths.appBackgroundJs
@@ -232,7 +236,26 @@ module.exports = {
       inject: true,
       template: paths.appOverrideHtml,
       filename: 'override.html',
-      excludeChunks: ['background'],
+      chunks: ['override'],
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      }
+    }),
+    // Generates an `popup.html` file with the <script> injected.
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: paths.appPopupHtml,
+      filename: 'popup.html',
+      chunks: ['popup'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,

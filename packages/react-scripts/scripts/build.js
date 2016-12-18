@@ -79,12 +79,27 @@ recursive(paths.appBuild, (err, fileNames) => {
   // if you're in it, you don't end up in Trash
   fs.emptyDirSync(paths.appBuild);
 
-  // Start the webpack build
-  build(previousSizeMap);
-
   // Merge with the public folder
   copyPublicFolder();
+
+  // Start the webpack build
+  build(previousSizeMap);
 });
+
+// Replace build/manifest.json background script name with the hashed one
+function updateManifestJson(stats) {
+  const manifest = paths.appBuild + '/manifest.json';
+
+  const background = stats.toJson().assets
+    .filter(asset => /background\..*\.js$/.test(asset.name))[0];
+
+  let fileContents = fs.readFileSync(manifest, 'utf8');
+
+  fs.writeFileSync(
+    manifest,
+    fileContents.replace(/"static\/.*background.*\.js"/, `"${background.name}"`)
+  );
+}
 
 // Print a detailed summary of build files.
 function printFileSizes(stats, previousSizeMap) {
@@ -149,6 +164,8 @@ function build(previousSizeMap) {
      process.exit(1);
    }
 
+    updateManifestJson(stats)
+
     console.log(chalk.green('Compiled successfully.'));
     console.log();
 
@@ -156,6 +173,7 @@ function build(previousSizeMap) {
     console.log();
     printFileSizes(stats, previousSizeMap);
     console.log();
+
 
     var openCommand = process.platform === 'win32' ? 'start' : 'open';
     var appPackage  = require(paths.appPackageJson);
@@ -230,6 +248,9 @@ function build(previousSizeMap) {
 function copyPublicFolder() {
   fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
-    filter: file => file !== paths.appOverrideHtml
+    filter: file => (
+      file !== paths.appOverrideHtml &&
+      file !== paths.appPopupHtml
+    )
   });
 }

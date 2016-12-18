@@ -1,10 +1,14 @@
 {
-  "name": "my-app",
+  "name": "React Webextension",
   "version": "0.1",
   "description": "Fun!",
 
   "chrome_url_overrides": {
     "newtab": "override.html"
+  },
+  "browser_action": {
+    "default_title": "React Webextension",
+    "default_popup": "popup.html"
   },
   "background": {
     "scripts": ["static/js/background.bundle.js"],
