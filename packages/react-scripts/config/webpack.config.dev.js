@@ -248,13 +248,13 @@ module.exports = {
       inject: true,
       template: paths.appOverrideHtml,
       filename: 'override.html',
-      chunks: ['override'],
+      excludeChunks: ['popup', 'background'],
     }),
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appPopupHtml,
       filename: 'popup.html',
-      chunks: ['popup']
+      excludeChunks: ['override', 'background'],
     }),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.

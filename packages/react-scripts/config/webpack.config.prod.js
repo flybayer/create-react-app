@@ -236,7 +236,7 @@ module.exports = {
       inject: true,
       template: paths.appOverrideHtml,
       filename: 'override.html',
-      chunks: ['override'],
+      excludeChunks: ['popup', 'background'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -255,7 +255,7 @@ module.exports = {
       inject: true,
       template: paths.appPopupHtml,
       filename: 'popup.html',
-      chunks: ['popup'],
+      excludeChunks: ['override', 'background'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,
