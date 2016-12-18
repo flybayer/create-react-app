@@ -277,6 +277,10 @@ function runDevServer(host, port, protocol) {
   // Our custom middleware proxies requests to /override.html or a remote API.
   addMiddleware(devServer);
 
+  // Remove all content but keep the directory so that
+  // if you're in it, you don't end up in Trash
+  fs.emptyDirSync(paths.appBuild);
+
   // Launch WebpackDevServer.
   devServer.listen(port, (err, result) => {
     if (err) {
